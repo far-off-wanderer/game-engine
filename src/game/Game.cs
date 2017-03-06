@@ -1,24 +1,18 @@
-﻿#region Using Statements
-using System;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-#endregion
-
-namespace game
+﻿namespace game
 {
-    public class Game1 : Game
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
+    public class Game : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;		
 
-        public Game1()
+        public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";	            
-            //graphics.IsFullScreen = true;		
         }
 
         protected override void Initialize()
@@ -29,18 +23,16 @@ namespace game
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
         }
 
         protected override void Update(GameTime gameTime)
         {
-            #if !__IOS__ &&  !__TVOS__
-            if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var gamePad1 = GamePad.GetState(PlayerIndex.One);
+            var keyboard = Keyboard.GetState();
+            if (gamePad1.Buttons.Back == ButtonState.Pressed || keyboard.IsKeyDown(Keys.Escape))
             {
-                Exit ();
+                Exit();
             }
-            #endif
             base.Update(gameTime);
         }
 
