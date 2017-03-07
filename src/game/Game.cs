@@ -7,12 +7,14 @@
     public class Game : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;		
+        SpriteBatch spriteBatch;
+        Texture2D texture;
 
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";	            
+            Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()
@@ -23,6 +25,7 @@
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            texture = Content.Load<Texture2D>("conesoft entertainment presents");
         }
 
         protected override void Update(GameTime gameTime)
@@ -39,6 +42,10 @@
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Draw(texture, Window.ClientBounds.Fill(texture.Width, texture.Height), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
