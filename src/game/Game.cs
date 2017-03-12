@@ -16,8 +16,10 @@
 
         public Game()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                IsFullScreen = true
+            };
             IsMouseVisible = false;
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
@@ -51,19 +53,29 @@
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            /* background */
+            GraphicsDevice.Clear(new Color(35, 35, 35));
  
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            spriteBatch.Draw(texture, Window.ClientBounds.Fill(texture.Width, texture.Height), Color.White);
+            spriteBatch.Draw(texture, Window.ClientBounds.FillHorizontally(texture.Width, texture.Height), Color.White);
             spriteBatch.End();
 
+            /* spaceship */
             spriteBatch.Begin(samplerState: SamplerState.AnisotropicClamp);
             spriteBatch.End();
-
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
+            var aspectRatio = (float)Window.ClientBounds.Width / Window.ClientBounds.Height;
+            var verticalScreen = aspectRatio < 1f;
+            var translation = verticalScreen
+                ?
+                Matrix.CreateTranslation(12.5f, -25f, -25f)
+                :
+                Matrix.CreateTranslation(25f, -12.5f, 0)
+                ;
+
             model.Draw(
-                Matrix.CreateRotationY(MathHelper.ToRadians(angle)) * Matrix.CreateTranslation(25f, -12.5f, 0),
+                Matrix.CreateRotationY(MathHelper.ToRadians(angle)) * translation,
                 Matrix.CreateLookAt(
                     Vector3.Backward * 50,
                     Vector3.Zero,
@@ -71,7 +83,7 @@
                 ),
                 Matrix.CreatePerspectiveFieldOfView(
                     MathHelper.ToRadians(60),
-                    GraphicsDevice.DisplayMode.AspectRatio,
+                    aspectRatio,
                     1f,
                     1000f
                 )

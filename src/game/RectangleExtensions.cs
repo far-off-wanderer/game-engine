@@ -31,5 +31,20 @@
                 );
             }
         }
+
+        public static Rectangle FillHorizontally(this Rectangle target, int width, int height)
+        {
+            var target_aspect = (float)target.Width / target.Height;
+            var source_aspect = (float)width / height;
+
+            var scale = (float)target.Width / width;
+            var new_height = (int)(scale * height);
+            return new Rectangle(
+                0,
+                -(new_height - target.Height) / 2,
+                target.Width,
+                new_height
+            );
+        }
     }
 }
