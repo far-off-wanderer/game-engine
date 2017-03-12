@@ -1,0 +1,12 @@
+#
+#
+#
+
+newmtl Ship Mesh_Ship_Ship
+illum 2
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ns 100.000000
+map_Kd main diffuse.png
+
