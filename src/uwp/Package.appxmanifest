@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="55993davepermen.FarOffWanderer" Publisher="CN=C85FCB14-A751-4330-9D31-04C80C3B9382" Version="1.1.2.0" />
+  <Identity Name="55993davepermen.FarOffWanderer" Publisher="CN=C85FCB14-A751-4330-9D31-04C80C3B9382" Version="1.1.3.0" />
   <mp:PhoneIdentity PhoneProductId="ec378dd0-1b4f-454b-a5b8-2540e0b5b562" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Far Off Wanderer</DisplayName>

@@ -18,11 +18,12 @@
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = true
+                IsFullScreen = true,
+                PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
+                PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
             };
             IsMouseVisible = false;
             Content.RootDirectory = "Content";
-            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()
