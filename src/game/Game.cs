@@ -8,11 +8,13 @@
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D texture;
+        Texture2D conesoft_entertainment_presents;
+        Texture2D far_off_wanderer;
 
         Model model;
 
         float angle;
+        float title_fadein;
 
         public Game()
         {
@@ -34,7 +36,8 @@
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture = Content.Load<Texture2D>("conesoft entertainment presents");
+            conesoft_entertainment_presents = Content.Load<Texture2D>("conesoft entertainment presents");
+            far_off_wanderer = Content.Load<Texture2D>("far off wanderer");
             model = Content.Load<Model>("ships/main");
             angle = 0f;
         }
@@ -49,6 +52,8 @@
             }
             var speed = 0.25;
             angle = (float)(speed * gameTime.TotalGameTime.TotalSeconds * 360) % 360;
+
+            title_fadein = MathHelper.SmoothStep(0, 1, MathHelper.Clamp((float)gameTime.TotalGameTime.TotalSeconds - 5, 0, 1));
             base.Update(gameTime);
         }
 
@@ -56,9 +61,9 @@
         {
             /* background */
             GraphicsDevice.Clear(new Color(35, 35, 35));
- 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            spriteBatch.Draw(texture, Window.ClientBounds.FillHorizontally(texture.Width, texture.Height), Color.White);
+
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Additive);
+            spriteBatch.Draw(conesoft_entertainment_presents, Window.ClientBounds.FillHorizontally(conesoft_entertainment_presents.Width, conesoft_entertainment_presents.Height), new Color(Color.White, 1 - title_fadein));
             spriteBatch.End();
 
             /* spaceship */
@@ -89,6 +94,11 @@
                     1000f
                 )
             );
+
+            /* title */
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Additive);
+            spriteBatch.Draw(far_off_wanderer, Window.ClientBounds.FillHorizontally(far_off_wanderer.Width, far_off_wanderer.Height), new Color(Color.White, title_fadein));
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
