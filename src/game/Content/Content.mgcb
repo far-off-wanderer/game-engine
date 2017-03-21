@@ -56,3 +56,9 @@
 /processorParam:TextureFormat=Color
 /build:far off wanderer.png
 
+#begin main.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:main.fx
+
