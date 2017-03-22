@@ -31,7 +31,8 @@
         Effect main;
 
         ModelWithTexture ship;
-
+        RenderTarget2D main_target;
+        Effect main_to_screen;
 
         float angle;
         float title_fadein;
@@ -61,6 +62,9 @@
             far_off_wanderer = Content.Load<Texture2D>("far off wanderer");
             ship = Content.Load<Model>("ships/main");
             main = Content.Load<Effect>("main");
+
+            main_target = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.DisplayMode.Width, graphics.GraphicsDevice.DisplayMode.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            main_to_screen = Content.Load<Effect>("main_to_screen");
             angle = 0f;
         }
 
@@ -83,8 +87,9 @@
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(main_target);
             /* background */
-            GraphicsDevice.Clear(new Color(35, 35, 35));
+            GraphicsDevice.Clear(new Color(2, 2, 2));
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Additive);
             spriteBatch.Draw(conesoft_entertainment_presents, Window.ClientBounds.FillHorizontally(conesoft_entertainment_presents.Width, conesoft_entertainment_presents.Height), new Color(Color.White, 1 - title_fadein));
@@ -126,7 +131,6 @@
                     main.Parameters["worldViewProjection"].SetValue(worldViewProjection);
                     main.Parameters["worldViewProjectionTransposed"].SetValue(Matrix.Transpose(worldViewProjection));
                     main.Parameters["modelTexture"].SetValue(ship.Texture);
-                    main.Parameters["brightness"].SetValue(brightness);
                 }
                 mesh.Draw();
             }
@@ -134,6 +138,14 @@
             /* title */
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Additive);
             spriteBatch.Draw(far_off_wanderer, Window.ClientBounds.FillHorizontally(far_off_wanderer.Width, far_off_wanderer.Height), new Color(Color.White, title_fadein));
+            spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            main_to_screen.Parameters["brightness"].SetValue(brightness);
+            main_to_screen.Parameters["source"].SetValue(main_target);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Opaque, effect: main_to_screen);
+            spriteBatch.Draw(main_target, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
