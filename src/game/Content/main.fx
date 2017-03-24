@@ -22,16 +22,16 @@ sampler2D textureSampler = sampler_state
 
 struct VertexShaderInput
 {
-	float4 Position : POSITION0;
-	float3 Normal : NORMAL0;
-	float2 TextureCoodinates : TEXCOORD0;
+	half4 Position : POSITION0;
+	half3 Normal : NORMAL0;
+	half2 TextureCoodinates : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
-	float4 Position : SV_POSITION;
-	float3 Normal : NORMAL0;
-	float2 TextureCoodinates : TEXCOORD0;
+	half4 Position : SV_POSITION;
+	half3 Normal : NORMAL0;
+	half2 TextureCoodinates : TEXCOORD0;
 };
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
@@ -40,18 +40,18 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 	output.Position = mul(input.Position, worldViewProjection);
 	output.TextureCoodinates = input.TextureCoodinates;
-	output.Normal = mul(input.Normal, (float3x4)worldViewProjectionTransposed).xyz;
+	output.Normal = mul(input.Normal, (half3x4)worldViewProjectionTransposed).xyz;
 
 	return output;
 }
 
-float4 MainPS(VertexShaderOutput input) : COLOR
+half4 MainPS(VertexShaderOutput input) : COLOR
 {
-	float shade = dot(normalize(input.Normal), float3(0, 1, 0)) * 0.5 + 0.5;
-	float3 lighting = lerp(float3(.1, .1, .7), float3(1, .85, 0), 1 - pow(max(0, 1 - shade), .25));
-	float3 diffuse = tex2D(textureSampler, input.TextureCoodinates).xyz;
-	float3 color = lighting * diffuse;
-	return float4(color, 1);
+	half shade = dot(normalize(input.Normal), half3(0, 1, 0)) * 0.5 + 0.5;
+	half3 lighting = lerp(half3(.1, .1, .7), half3(1, .85, 0), 1 - pow(max(0, 1 - shade), .25));
+	half3 diffuse = tex2D(textureSampler, input.TextureCoodinates).xyz;
+	half3 color = lighting * diffuse;
+	return shade > .9 ? half4(1000, 1000, 1000, 1) : half4(color, 1);
 }
 
 technique BasicColorDrawing
@@ -59,6 +59,6 @@ technique BasicColorDrawing
 	pass P0
 	{
 		VertexShader = compile VS_SHADERMODEL MainVS();
-		PixelShader = compile PS_SHADERMODEL MainPS();
-	}
+        PixelShader = compile PS_SHADERMODEL MainPS();
+    }
 };

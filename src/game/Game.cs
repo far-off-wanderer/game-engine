@@ -3,6 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Input.Touch;
 
     class ModelWithTexture
     {
@@ -31,9 +32,8 @@
         Effect main;
 
         ModelWithTexture ship;
-        RenderTarget2D main_target;
-        Effect main_to_screen;
-
+        MainToScreen mainToScreen;
+ 
         float angle;
         float title_fadein;
         float brightness;
@@ -63,8 +63,8 @@
             ship = Content.Load<Model>("ships/main");
             main = Content.Load<Effect>("main");
 
-            main_target = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.DisplayMode.Width, graphics.GraphicsDevice.DisplayMode.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
-            main_to_screen = Content.Load<Effect>("main_to_screen");
+            mainToScreen = Content.Load<Effect>("main_to_screen");
+
             angle = 0f;
         }
 
@@ -72,7 +72,17 @@
         {
             var gamePad1 = GamePad.GetState(PlayerIndex.One);
             var keyboard = Keyboard.GetState();
-            if (gamePad1.Buttons.Back == ButtonState.Pressed || keyboard.IsKeyDown(Keys.Escape))
+            var mouse    = Mouse.GetState();
+            var touch    = TouchPanel.GetState();
+            if (
+                gamePad1.Buttons.Back == ButtonState.Pressed
+                ||
+                keyboard.IsKeyDown(Keys.Escape)
+                ||
+                mouse.LeftButton == ButtonState.Pressed
+                ||
+                touch.Count > 0
+            )
             {
                 Exit();
             }
@@ -87,8 +97,7 @@
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(main_target);
-            /* background */
+            mainToScreen.SetTarget();
             GraphicsDevice.Clear(new Color(2, 2, 2));
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Additive);
@@ -142,13 +151,59 @@
 
             GraphicsDevice.SetRenderTarget(null);
 
-            main_to_screen.Parameters["brightness"].SetValue(brightness);
-            main_to_screen.Parameters["source"].SetValue(main_target);
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Opaque, effect: main_to_screen);
-            spriteBatch.Draw(main_target, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            mainToScreen.Brightness = brightness;
+            mainToScreen.DrawUsingSpritebatch(spriteBatch);
 
             base.Draw(gameTime);
         }
+    }
+
+    class RenderTargetWithShader
+    {
+        GraphicsDevice graphicsDevice;
+        Effect effect;
+        RenderTarget2D renderTarget;
+
+        public RenderTargetWithShader(Effect effect, bool hdr, bool withDepth)
+        {
+            this.graphicsDevice = effect.GraphicsDevice;
+            this.effect = effect;
+            this.renderTarget = new RenderTarget2D(
+                graphicsDevice,
+                graphicsDevice.DisplayMode.Width,
+                graphicsDevice.DisplayMode.Height,
+                false,
+                hdr ? SurfaceFormat.HalfVector4 : SurfaceFormat.Color,
+                withDepth ? DepthFormat.Depth24Stencil8 : DepthFormat.None
+            );
+        }
+
+        public void SetTarget() => graphicsDevice.SetRenderTarget(renderTarget);
+
+        public void DrawUsingSpritebatch(SpriteBatch spriteBatch)
+        {
+            effect.Parameters["source"].SetValue(renderTarget);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.Opaque, effect: effect);
+            spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+        }
+
+        public void SetValue(string name, Texture2D value) => effect.Parameters[name].SetValue(value);
+        public void SetValue(string name, bool value) => effect.Parameters[name].SetValue(value);
+        public void SetValue(string name, float value) => effect.Parameters[name].SetValue(value);
+    }
+
+    class MainToScreen : RenderTargetWithShader
+    {
+        public MainToScreen(Effect effect) : base(effect, hdr: true, withDepth: true)
+        {
+        }
+
+        public static implicit operator MainToScreen(Effect effect)
+        {
+            return new MainToScreen(effect);
+        }
+
+        public float Brightness { set => SetValue("brightness", value); }
     }
 }
