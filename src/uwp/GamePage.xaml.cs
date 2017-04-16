@@ -1,6 +1,6 @@
 ﻿namespace uwp
 {
-    using game;
+    using Game;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 

@@ -6,17 +6,45 @@
     <SharedGUID>091fbf49-9b65-41eb-b7d5-122e0daac4be</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>game</Import_RootNamespace>
+    <Import_RootNamespace>Game</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelWithTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RectangleExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Compile Include="$(MSBuildThisFileDirectory)RenderPipeline.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RenderTargetWithShader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\BasicLevelScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\StartScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\blur.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\conesoft entertainment presents.pdn" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+    <None Include="$(MSBuildThisFileDirectory)Content\far off wanderer.pdn" />
+    <None Include="$(MSBuildThisFileDirectory)Content\main.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\RenderPipeline\Shaders.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\scenes\spaaaaaaaaaaaace.mtl" />
+    <None Include="$(MSBuildThisFileDirectory)Content\scenes\spaaaaaaaaaaaace.obj" />
+    <None Include="$(MSBuildThisFileDirectory)Content\scene_to_blurs.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\ships\main diffuse.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\to_screen.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\ships\main.mtl" />
+    <None Include="$(MSBuildThisFileDirectory)Content\ships\main.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\conesoft entertainment presents.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\far off wanderer.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\scenes\background.jpg" />
+    <None Include="$(MSBuildThisFileDirectory)Content\scenes\spaaaaaaaaaaaace.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\space_background.jpg" />
   </ItemGroup>
 </Project>
