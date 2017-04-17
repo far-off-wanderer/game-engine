@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RectangleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderPipeline.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RenderTargetWithShader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\BasicLevelScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\StartScene.cs" />

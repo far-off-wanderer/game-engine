@@ -1,1 +1,1 @@
-C:\Users\davep\Projekte\Far Off Wanderer\game\bin\UniversalWindows\AppPackages\uwp_1.1.2.0\uwp_1.1.2.0_x86_x64_arm.appxbundle
+C:\Users\davep\Projekte\Far Off Wanderer\game\bin\UniversalWindows\x86\Release\arm\uwp\Upload\uwp_1.1.3.0\uwp_1.1.3.0_x86_x64_arm.appxbundle

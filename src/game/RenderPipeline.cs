@@ -12,16 +12,16 @@ namespace Game
         GBuffer gbuffer;
         Effect shaders;
 
-        SpriteBatch spriteBatch; // why the fuck do i need it? i don't know yet..
+        //SpriteBatch spriteBatch; // why the fuck do i need it? i don't know yet..
 
         public RenderPipeline(GraphicsDevice graphicsDevice, ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
             this.fullscreen = new DrawFullscreenQuadWithShader(graphicsDevice);
             this.gbuffer = new GBuffer(graphicsDevice);
-            this.shaders = content.Load<Effect>("RenderPipeline/Shaders");
+            this.shaders = content.Load<Effect>("RenderPipeline\\Shaders");
 
-            this.spriteBatch = new SpriteBatch(graphicsDevice); // i don't want this
+            //this.spriteBatch = new SpriteBatch(graphicsDevice); // i don't want this
         }
 
         public void Draw(Action<Effect> drawScene)
@@ -31,14 +31,17 @@ namespace Game
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
             drawScene(shaders);
             graphicsDevice.SetRenderTargets();
-            // i really don't want this
-            spriteBatch.Begin();
-            spriteBatch.End();
-            // but it works only with this :'(
+
             fullscreen.Draw(shaders, "GBufferToScreen", p =>
             {
                 p["GBufferAlbedo"].SetValue(gbuffer.Albedo);
                 p["GBufferNormal"].SetValue(gbuffer.Normal);
+
+                return new Action(() =>
+                {
+                    p["GBufferAlbedo"].SetValue((Texture2D)null);
+                    p["GBufferNormal"].SetValue((Texture2D)null);
+                });
             });
         }
     }
@@ -57,10 +60,10 @@ namespace Game
 
         public Vector2 ScreenSize => new Vector2(screenSize.width, screenSize.height);
 
-        public void Draw(Effect effect, string passName, Action<EffectParameterCollection> withParameters)
+        public void Draw(Effect effect, string passName, Func<EffectParameterCollection, Action> withParameters)
         {
             ResizeIfNeeded();
-            withParameters(effect.Parameters);
+            var whenDone = withParameters(effect.Parameters);
             graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.DepthStencilState = DepthStencilState.None;
             graphicsDevice.RasterizerState = RasterizerState.CullNone;
@@ -81,6 +84,7 @@ namespace Game
                 indexOffset: 0,
                 primitiveCount: 2
             );
+            whenDone();
         }
 
         void ResizeIfNeeded()
