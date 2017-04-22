@@ -9,7 +9,7 @@
     {
         GraphicsDevice graphicsDevice;
 
-        ModelWithTexture spaaaaaaaaaaaace;
+        ModelWithTexture space;
         ModelWithTexture ship;
         float angle;
 
@@ -17,7 +17,7 @@
         {
             this.graphicsDevice = graphicsDevice;
             
-            spaaaaaaaaaaaace = content.Load<Model>("scenes/spaaaaaaaaaaaace");
+            space = content.Load<Model>("scenes/spaaaaaaaaaaaace");
             ship = content.Load<Model>("ships/main");
 
             angle = 0f;
@@ -31,11 +31,6 @@
 
         public void Draw(Effect effect)
         {
-            var screenSize = (
-                Width: graphicsDevice.DisplayMode.Width,
-                Height: graphicsDevice.DisplayMode.Height
-            );
-
             graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer | ClearOptions.DepthBuffer, Color.Gainsboro, 1, 0);
             
             var aspectRatio = graphicsDevice.DisplayMode.AspectRatio;
@@ -60,24 +55,8 @@
                     1000f
                 );
 
-            void DrawModel(ModelWithTexture model)
-            {
-                foreach (ModelMesh mesh in model.Model.Meshes)
-                {
-                    foreach (ModelMeshPart part in mesh.MeshParts)
-                    {
-                        part.Effect = effect;
-                        var worldViewProjection = (world * mesh.ParentBone.Transform) * view * projection;
-                        effect.Parameters["worldViewProjection"].SetValue(worldViewProjection);
-                        effect.Parameters["worldViewProjectionTransposed"].SetValue(Matrix.Transpose(worldViewProjection));
-                        effect.Parameters["Albedo"].SetValue(model.Texture);
-                    }
-                    mesh.Draw();
-                }
-            }
-
-            DrawModel(spaaaaaaaaaaaace);
-            DrawModel(ship);
+            space.Draw(effect, world, view, projection);
+            ship.Draw(effect, world, view, projection);
         }
     }
 }
