@@ -23,6 +23,7 @@
                     var worldViewProjection = (world * mesh.ParentBone.Transform) * view * projection;
                     effect.Parameters["worldViewProjection"].SetValue(worldViewProjection);
                     effect.Parameters["worldViewProjectionTransposed"].SetValue(Matrix.Transpose(worldViewProjection));
+                    effect.Parameters["worldViewProjectionInverted"].SetValue(Matrix.Invert(worldViewProjection));
                     effect.Parameters["Albedo"].SetValue(Texture);
                 }
                 mesh.Draw();

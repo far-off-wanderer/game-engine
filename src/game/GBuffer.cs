@@ -6,6 +6,7 @@
         GraphicsDevice graphicsDevice;
         RenderTarget2D albedoWithDepthStencil;
         RenderTarget2D normal;
+        RenderTarget2D distance;
 
         public GBuffer(GraphicsDevice graphicsDevice)
         {
@@ -28,11 +29,21 @@
                 SurfaceFormat.Color,
                 DepthFormat.None
             );
+
+            distance = new RenderTarget2D(
+                graphicsDevice,
+                graphicsDevice.DisplayMode.Width,
+                graphicsDevice.DisplayMode.Height,
+                false,
+                SurfaceFormat.Single,
+                DepthFormat.None
+            );
         }
 
-        public void SetTarget() => graphicsDevice.SetRenderTargets(albedoWithDepthStencil, normal);
+        public void SetTarget() => graphicsDevice.SetRenderTargets(albedoWithDepthStencil, normal, distance);
 
         public Texture2D Albedo => albedoWithDepthStencil;
         public Texture2D Normal => normal;
+        public Texture2D Distance => distance;
     }
 }

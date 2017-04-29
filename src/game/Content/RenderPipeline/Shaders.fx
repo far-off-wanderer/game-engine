@@ -1,5 +1,6 @@
 ﻿matrix worldViewProjection;
 matrix worldViewProjectionTransposed;
+matrix worldViewProjectionInverted;
 
 sampler albedoSampler = sampler_state
 {
@@ -19,15 +20,16 @@ struct SceneToGBufferVSInput
 
 struct SceneToGBufferPSInput
 {
-    float4 Position : SV_POSITION;
-    float3 Normal : NORMAL0;
+    float4 Position           : SV_POSITION;
+    float3 Normal             : NORMAL0;
     float2 TextureCoordinates : TEXCOORD0;
 };
 
 struct SceneToGBufferPSOutput
 {
-    float4 Albedo : COLOR0;
-    float4 Normal : COLOR1;
+    float4 Albedo   : COLOR0;
+    float4 Normal   : COLOR1;
+    float  Distance : COLOR2;
 };
 
 SceneToGBufferPSInput SceneToGBufferVS(in SceneToGBufferVSInput input)
@@ -46,7 +48,8 @@ SceneToGBufferPSOutput SceneToGBufferPS(SceneToGBufferPSInput input)
     SceneToGBufferPSOutput output = (SceneToGBufferPSOutput)0;
 
     output.Albedo = tex2D(albedoSampler, input.TextureCoordinates);
-    output.Normal = float4(input.Normal, 0);
+    output.Normal = float4(normalize(input.Normal) * 0.5 + 0.5, 0); // compress to unsigned
+    output.Distance = sqrt(dot(input.Position, input.Position));
 
     return output;
 }
@@ -101,10 +104,10 @@ GBufferToScreenPSInput GBufferToScreenVS(in GBufferToScreenVSInput input)
 float4 GBufferToScreenPS(GBufferToScreenPSInput input) : COLOR0
 {
     float4 Albedo = tex2D(gbufferAlbedoSampler, input.TextureCoordinates);
-    float4 Normal = normalize(tex2D(gbufferNormalSampler, input.TextureCoordinates));
+    float4 Normal = normalize(tex2D(gbufferNormalSampler, input.TextureCoordinates) * 2 - 1); // uncompress from unsigned
 
     float4 ScreenColor = Albedo;
-    ScreenColor.a = Normal.y;
+    ScreenColor.rgb *= dot(Normal.xyz, float3(-0.707, 0.707, 0));
 
     return ScreenColor;
 }

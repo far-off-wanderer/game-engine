@@ -36,11 +36,13 @@ namespace Game
             {
                 p["GBufferAlbedo"].SetValue(gbuffer.Albedo);
                 p["GBufferNormal"].SetValue(gbuffer.Normal);
+                p["GBufferDistance"].SetValue(gbuffer.Distance);
 
                 return new Action(() =>
                 {
                     p["GBufferAlbedo"].SetValue((Texture2D)null);
                     p["GBufferNormal"].SetValue((Texture2D)null);
+                    p["GBufferDistance"].SetValue((Texture2D)null);
                 });
             });
         }

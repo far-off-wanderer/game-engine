@@ -31,7 +31,7 @@
 
         public void Draw(Effect effect)
         {
-            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer | ClearOptions.DepthBuffer, Color.Gainsboro, 1, 0);
+            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer | ClearOptions.Stencil, Color.Gainsboro, 1, 0);
             
             var aspectRatio = graphicsDevice.DisplayMode.AspectRatio;
             var verticalScreen = aspectRatio < 1f;
