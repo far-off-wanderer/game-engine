@@ -1,0 +1,52 @@
+﻿<PivotItem
+    x:Class="Editor.Document"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Editor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="800"
+    d:DesignWidth="1200">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="12">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}">mesh</TextBlock>
+            <Grid>
+                <Viewbox Stretch="Uniform">
+                    <Grid Width="256" Height="256"/>
+                </Viewbox>
+                <StackPanel>
+                    <TextBox Header="enter name:" PlaceholderText="name of model" BorderThickness="0"/>
+                    <TextBox Header="description:" PlaceholderText="short description of model" AcceptsReturn="True" TextWrapping="Wrap" Height="100" BorderThickness="0"/>
+                </StackPanel>
+            </Grid>
+            <Button>choose image...</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="12">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}">albedo</TextBlock>
+            <Viewbox Stretch="Uniform">
+                <Grid Width="256" Height="256" Background="#222">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">no image chosen</TextBlock>
+                    <Image />
+                </Grid>
+            </Viewbox>
+            <Button>choose image...</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Margin="12">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}">displacement</TextBlock>
+            <Viewbox Stretch="Uniform">
+                <Grid Width="256" Height="256" Background="#222">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">no image chosen</TextBlock>
+                    <Image />
+                </Grid>
+            </Viewbox>
+            <Button>choose image...</Button>
+        </StackPanel>
+    </Grid>
+</PivotItem>

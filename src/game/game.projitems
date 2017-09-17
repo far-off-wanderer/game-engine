@@ -32,7 +32,8 @@
     <None Include="$(MSBuildThisFileDirectory)Content\scenes\spaaaaaaaaaaaace.mtl" />
     <None Include="$(MSBuildThisFileDirectory)Content\scenes\spaaaaaaaaaaaace.obj" />
     <None Include="$(MSBuildThisFileDirectory)Content\scene_to_blurs.fx" />
-    <None Include="$(MSBuildThisFileDirectory)Content\ships\main diffuse.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\ships\main_self_illumination.png" />
+    <None Include="$(MSBuildThisFileDirectory)Content\ships\main_albedo.png" />
     <None Include="$(MSBuildThisFileDirectory)Content\to_screen.fx" />
   </ItemGroup>
   <ItemGroup>

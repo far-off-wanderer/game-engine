@@ -35,7 +35,7 @@
                 graphicsDevice.DisplayMode.Width,
                 graphicsDevice.DisplayMode.Height,
                 false,
-                SurfaceFormat.Single,
+                SurfaceFormat.Color,
                 DepthFormat.None
             );
         }

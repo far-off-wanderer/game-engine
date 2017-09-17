@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "game", "game\game.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
@@ -9,11 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "windows", "windows\windows.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uwp", "uwp\uwp.csproj", "{B8481AC6-C18F-46F0-8E0B-13573AD54633}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "content", "content\content.shproj", "{E969B5F6-E062-431C-835D-2A1760187CCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5F13D23C-D5A7-4D83-840F-9449320B333E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3d Model Editor", "tools\3d Model editor\3d Model Editor.csproj", "{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		content\content.projitems*{742e6ff1-6452-4a8a-b4f8-b964dd347173}*SharedItemsImports = 4
 		game\game.projitems*{742e6ff1-6452-4a8a-b4f8-b964dd347173}*SharedItemsImports = 4
 		game\game.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
 		game\game.projitems*{b8481ac6-c18f-46f0-8e0b-13573ad54633}*SharedItemsImports = 4
+		content\content.projitems*{e969b5f6-e062-431c-835d-2a1760187ccc}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -25,7 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|ARM.ActiveCfg = Debug|x86
-		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|x64.ActiveCfg = Debug|x86
+		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|x64.ActiveCfg = Debug|x64
+		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|x64.Build.0 = Debug|x64
 		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|x86.ActiveCfg = Debug|x86
 		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Debug|x86.Build.0 = Debug|x86
 		{742E6FF1-6452-4A8A-B4F8-B964DD347173}.Release|ARM.ActiveCfg = Release|x86
@@ -50,8 +59,32 @@ Global
 		{B8481AC6-C18F-46F0-8E0B-13573AD54633}.Release|x86.ActiveCfg = Release|x86
 		{B8481AC6-C18F-46F0-8E0B-13573AD54633}.Release|x86.Build.0 = Release|x86
 		{B8481AC6-C18F-46F0-8E0B-13573AD54633}.Release|x86.Deploy.0 = Release|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|ARM.Build.0 = Debug|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x64.ActiveCfg = Debug|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x64.Build.0 = Debug|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x64.Deploy.0 = Debug|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x86.ActiveCfg = Debug|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x86.Build.0 = Debug|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Debug|x86.Deploy.0 = Debug|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|ARM.ActiveCfg = Release|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|ARM.Build.0 = Release|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|ARM.Deploy.0 = Release|ARM
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x64.ActiveCfg = Release|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x64.Build.0 = Release|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x64.Deploy.0 = Release|x64
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x86.ActiveCfg = Release|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x86.Build.0 = Release|x86
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EBD7FE1C-3053-4BE3-B1E2-090A00D97670} = {5F13D23C-D5A7-4D83-840F-9449320B333E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CB494A4-3FFC-4A74-9A1E-65C9E66365EC}
 	EndGlobalSection
 EndGlobal

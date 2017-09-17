@@ -23,13 +23,14 @@ struct SceneToGBufferPSInput
     float4 Position           : SV_POSITION;
     float3 Normal             : NORMAL0;
     float2 TextureCoordinates : TEXCOORD0;
+    float4 Position_          : TEXCOORD1;
 };
 
 struct SceneToGBufferPSOutput
 {
     float4 Albedo   : COLOR0;
     float4 Normal   : COLOR1;
-    float  Distance : COLOR2;
+    float4 Distance : COLOR2;
 };
 
 SceneToGBufferPSInput SceneToGBufferVS(in SceneToGBufferVSInput input)
@@ -39,6 +40,7 @@ SceneToGBufferPSInput SceneToGBufferVS(in SceneToGBufferVSInput input)
     output.Position = mul(float4(input.Position, 1), worldViewProjection);
     output.Normal = mul(input.Normal, (float3x4) worldViewProjectionTransposed).xyz;
     output.TextureCoordinates = input.TextureCoordinates;
+    output.Position_ = output.Position;
 
 	return output;
 }
@@ -49,7 +51,7 @@ SceneToGBufferPSOutput SceneToGBufferPS(SceneToGBufferPSInput input)
 
     output.Albedo = tex2D(albedoSampler, input.TextureCoordinates);
     output.Normal = float4(normalize(input.Normal) * 0.5 + 0.5, 0); // compress to unsigned
-    output.Distance = sqrt(dot(input.Position, input.Position));
+    output.Distance = sqrt(dot(input.Position_, input.Position_));
 
     return output;
 }
@@ -71,6 +73,15 @@ sampler gbufferNormalSampler = sampler_state
     AddressU = Clamp;
     AddressV = Clamp;
 };
+sampler gbufferDistanceSampler = sampler_state
+{
+    Texture = (GBufferDistance);
+    MagFilter = Linear;
+    MinFilter = Linear;
+    AddressU = Clamp;
+    AddressV = Clamp;
+};
+
 struct GBufferToScreenVSInput
 {
     float4 Position : POSITION0;
@@ -105,9 +116,9 @@ float4 GBufferToScreenPS(GBufferToScreenPSInput input) : COLOR0
 {
     float4 Albedo = tex2D(gbufferAlbedoSampler, input.TextureCoordinates);
     float4 Normal = normalize(tex2D(gbufferNormalSampler, input.TextureCoordinates) * 2 - 1); // uncompress from unsigned
-
+    float4 Distance = tex2D(gbufferDistanceSampler, input.TextureCoordinates);
     float4 ScreenColor = Albedo;
-    ScreenColor.rgb *= dot(Normal.xyz, float3(-0.707, 0.707, 0));
+    ScreenColor.rgb *= dot(Normal.xyz, float3(-0.707, 0.707, 0)) * Distance.x;
 
     return ScreenColor;
 }
@@ -116,13 +127,13 @@ technique Shaders
 {
 	pass SceneToGBuffer
 	{
-        VertexShader = compile vs_4_0_level_9_1 SceneToGBufferVS();
-        PixelShader = compile ps_4_0_level_9_1 SceneToGBufferPS();
+        VertexShader = compile vs_4_0_level_9_3 SceneToGBufferVS();
+        PixelShader = compile ps_4_0_level_9_3 SceneToGBufferPS();
     }
 
     pass GBufferToScreen
     {
-        VertexShader = compile vs_4_0_level_9_1 GBufferToScreenVS();
-        PixelShader = compile ps_4_0_level_9_1 GBufferToScreenPS();
+        VertexShader = compile vs_4_0_level_9_3 GBufferToScreenVS();
+        PixelShader = compile ps_4_0_level_9_3 GBufferToScreenPS();
     }
 };

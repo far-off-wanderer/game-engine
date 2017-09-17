@@ -21,11 +21,13 @@
             {
 #if DEBUG
                 IsFullScreen = false,
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720
 #else
                 IsFullScreen = true,
-#endif
                 PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
                 PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
+#endif
             };
             IsMouseVisible = false;
             Content.RootDirectory = "Content";
